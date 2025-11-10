@@ -1,4 +1,4 @@
-# Pre-commit hooks for kraken-crypt
+# Pre-commit hooks for titan-crypt
 # Install with: pre-commit install
 # Run with: pre-commit run --all-files
 
@@ -36,7 +36,7 @@ repos:
       - id: go-unit-tests
         args: ["-race", "-coverprofile=coverage.out"]
       - id: go-build
-        args: ["./pkg/kraken-crypt/..."]
+        args: ["./pkg/titan-crypt/..."]
 
   # Security scanning
   - repo: https://github.com/Yelp/detect-secrets
@@ -53,11 +53,11 @@ repos:
       - id: golangci-lint
         args: ["--timeout=5m"]
 
-  # Custom kraken-crypt specific checks
+  # Custom titan-crypt specific checks
   - repo: local
     hooks:
-      - id: kraken-crypt-tests
-        name: Run kraken-crypt specific tests
+      - id: titan-crypt-tests
+        name: Run titan-crypt specific tests
         entry: ./scripts/local-ci.sh
         language: system
         files: '\.go$'
