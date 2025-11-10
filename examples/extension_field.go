@@ -84,7 +84,7 @@ func demonstrateExtensionFieldArithmetic() {
 	a := xfield.New(coeffs)
 
 	fmt.Printf("   a = %v\n", a)
-	fmt.Printf("   a^2 = %v\n", a.Square())
+	fmt.Printf("   a^2 = %v\n", a.Pow(2))
 	fmt.Printf("   a^3 = %v\n", a.Pow(3))
 	fmt.Printf("   a^4 = %v\n", a.Pow(4))
 

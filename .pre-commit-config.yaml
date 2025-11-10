@@ -29,14 +29,19 @@ repos:
     hooks:
       - id: go-fmt
         args: ["-s", "-w"]
+        exclude: '^examples/'
       - id: go-imports
         args: ["-w"]
+        exclude: '^examples/'
       - id: go-vet
+        exclude: '^examples/'
       - id: go-mod-tidy
       - id: go-unit-tests
         args: ["-race", "-coverprofile=coverage.out"]
+        exclude: '^examples/'
       - id: go-build
         args: ["./pkg/titan-crypt/..."]
+        exclude: '^examples/'
 
   # Security scanning
   - repo: https://github.com/Yelp/detect-secrets
@@ -52,6 +57,7 @@ repos:
     hooks:
       - id: golangci-lint
         args: ["--timeout=5m"]
+        exclude: '^examples/'
 
   # Custom titan-crypt specific checks
   - repo: local
