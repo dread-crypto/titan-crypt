@@ -1,0 +1,149 @@
+goos: linux
+goarch: amd64
+pkg: github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/bfieldcodec
+cpu: Intel(R) Core(TM) i9-14900HX
+BenchmarkEncodeBFieldElement-32    	1000000000	         0.1452 ns/op	       0 B/op	       0 allocs/op
+BenchmarkDecodeBFieldElement-32    	1000000000	         0.1482 ns/op	       0 B/op	       0 allocs/op
+BenchmarkEncodeUint64-32           	69133507	        17.87 ns/op	      16 B/op	       1 allocs/op
+BenchmarkDecodeUint64-32           	433875742	         2.733 ns/op	       0 B/op	       0 allocs/op
+BenchmarkEncodeXFieldElement-32    	1000000000	         0.1443 ns/op	       0 B/op	       0 allocs/op
+BenchmarkDecodeXFieldElement-32    	1000000000	         0.6720 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/bfieldcodec	3.959s
+goos: linux
+goarch: amd64
+pkg: github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/field
+cpu: Intel(R) Core(TM) i9-14900HX
+BenchmarkElementNew-32                  	814621642	         1.458 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementAdd-32                  	1000000000	         0.1458 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementSub-32                  	1000000000	         0.1443 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementMul-32                  	902354701	         1.326 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementSquare-32               	823104894	         1.457 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementInverse-32              	 4422624	       268.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementDiv-32                  	 4255560	       278.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementModPow-32               	19394940	        61.55 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementNeg-32                  	1000000000	         0.1408 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementValue-32                	1000000000	         0.1430 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMontyred-32                    	1000000000	         0.1437 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMul128-32                      	1000000000	         0.1487 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementBatchAdd-32             	 4487133	       263.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementBatchMul-32             	  289242	      4137 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementMarshalBinary-32        	100000000	        12.38 ns/op	       8 B/op	       1 allocs/op
+BenchmarkElementUnmarshalBinary-32      	823054270	         1.337 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementLinearCombination-32    	323408631	         3.709 ns/op	       0 B/op	       0 allocs/op
+BenchmarkElementHornerEvaluation-32     	100000000	        10.95 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/field	17.082s
+goos: linux
+goarch: amd64
+pkg: github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/hash
+cpu: Intel(R) Core(TM) i9-14900HX
+BenchmarkPoseidonHash128-32              	   37762	     29731 ns/op	   11776 B/op	     368 allocs/op
+BenchmarkPoseidonHash256-32              	   21519	     64015 ns/op	   22784 B/op	     712 allocs/op
+BenchmarkPoseidonHashTwo-32              	  164558	      6788 ns/op	    2944 B/op	      92 allocs/op
+BenchmarkPoseidonSponge-32               	     194	   6153710 ns/op	   23320 B/op	    1482 allocs/op
+BenchmarkGrainLFSR-32                    	   57166	     21009 ns/op	      24 B/op	       3 allocs/op
+BenchmarkMDSMatrixGeneration-32          	  259602	      4586 ns/op	     224 B/op	       5 allocs/op
+BenchmarkRoundConstantsGeneration-32     	     195	   6126019 ns/op	   14080 B/op	    1197 allocs/op
+BenchmarkPoseidonVaryingInputSizes/size_1-32         	  174807	      7004 ns/op	    2944 B/op	      92 allocs/op
+BenchmarkPoseidonVaryingInputSizes/size_2-32         	  178798	      6978 ns/op	    2944 B/op	      92 allocs/op
+BenchmarkPoseidonVaryingInputSizes/size_5-32         	   83598	     15049 ns/op	    5888 B/op	     184 allocs/op
+BenchmarkPoseidonVaryingInputSizes/size_:-32         	   33943	     29853 ns/op	   11776 B/op	     368 allocs/op
+BenchmarkPoseidonVaryingInputSizes/size_D-32         	   21786	     52274 ns/op	   20608 B/op	     644 allocs/op
+BenchmarkPoseidonVaryingInputSizes/size_b-32         	    9976	    126617 ns/op	   50048 B/op	    1564 allocs/op
+BenchmarkPoseidonVaryingInputSizes/size_\u0094-32    	    4971	    253425 ns/op	  100096 B/op	    3128 allocs/op
+BenchmarkPoseidonFullRound-32                        	12236319	        93.93 ns/op	      32 B/op	       1 allocs/op
+BenchmarkPoseidonPartialRound-32                     	14803886	        78.15 ns/op	      32 B/op	       1 allocs/op
+BenchmarkSboxComputation-32                          	254638752	         4.715 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMDSMatrixApplication-32                     	19157311	        70.65 ns/op	      32 B/op	       1 allocs/op
+BenchmarkPoseidonInitialization-32                   	     195	   6126917 ns/op	   14400 B/op	    1203 allocs/op
+BenchmarkPoseidonPermutation-32                      	  166104	      7671 ns/op	    2944 B/op	      92 allocs/op
+BenchmarkPoseidonConvenience-32                      	     192	   6152963 ns/op	   26176 B/op	    1571 allocs/op
+BenchmarkTip5Hash10-32                               	 1000000	      1074 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTip5HashPair-32                             	 1000000	      1057 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTip5HashVarlen-32                           	 1000000	      1079 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTip5Permutation-32                          	 1000000	      1044 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/hash	37.714s
+goos: linux
+goarch: amd64
+pkg: github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/merkle
+cpu: Intel(R) Core(TM) i9-14900HX
+BenchmarkMerkleTreeCreation16-32     	   70143	     17021 ns/op	    1304 B/op	       2 allocs/op
+BenchmarkMerkleTreeCreation256-32    	    4238	    279289 ns/op	   20504 B/op	       2 allocs/op
+BenchmarkMerkleTreeAuthPath-32       	10467378	       126.7 ns/op	     320 B/op	       1 allocs/op
+BenchmarkVerifyInclusionProof-32     	  126634	      8637 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMerkleInclusionProof-32     	  252272	      7822 ns/op	    7288 B/op	      17 allocs/op
+BenchmarkMmrCreation16-32            	   68587	     16064 ns/op	     208 B/op	       1 allocs/op
+BenchmarkMmrCreation256-32           	    4395	    272230 ns/op	     384 B/op	       1 allocs/op
+BenchmarkMmrAppend-32                	 9289226	       196.2 ns/op	     496 B/op	       3 allocs/op
+BenchmarkMmrBagPeaks-32              	  366236	      3272 ns/op	     160 B/op	       1 allocs/op
+BenchmarkMmrVerifyMembership-32      	92247390	        12.99 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/merkle	15.101s
+goos: linux
+goarch: amd64
+pkg: github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/ntt
+cpu: Intel(R) Core(TM) i9-14900HX
+BenchmarkNTT16-32                   	 8021574	       140.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkNTT256-32                  	  330274	      3645 ns/op	       0 B/op	       0 allocs/op
+BenchmarkNTT1024-32                 	   67485	     17760 ns/op	       0 B/op	       0 allocs/op
+BenchmarkINTT1024-32                	   59325	     19978 ns/op	       0 B/op	       0 allocs/op
+BenchmarkNTTINTTRoundTrip1024-32    	   32241	     37173 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/ntt	6.878s
+goos: linux
+goarch: amd64
+pkg: github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/polynomial
+cpu: Intel(R) Core(TM) i9-14900HX
+BenchmarkMulNTT-32                	   31699	     32500 ns/op	   12312 B/op	       4 allocs/op
+BenchmarkEvaluateNTT-32           	  592266	      2242 ns/op	    1024 B/op	       1 allocs/op
+BenchmarkPolynomialMultiply-32    	13139150	        88.79 ns/op	      72 B/op	       2 allocs/op
+BenchmarkPolynomialEvaluate-32    	97985650	        12.10 ns/op	       0 B/op	       0 allocs/op
+BenchmarkPolynomialAdd-32         	28861219	        65.70 ns/op	      48 B/op	       2 allocs/op
+PASS
+ok  	github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/polynomial	9.068s
+goos: linux
+goarch: amd64
+pkg: github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/sponge
+cpu: Intel(R) Core(TM) i9-14900HX
+BenchmarkTip5SpongeAbsorb-32     	 1101158	      1078 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTip5SpongeSqueeze-32    	 1000000	      1072 ns/op	       0 B/op	       0 allocs/op
+BenchmarkHashVarlen-32           	   95178	     11681 ns/op	      80 B/op	       1 allocs/op
+BenchmarkHashFixed-32            	  559244	      2117 ns/op	      80 B/op	       1 allocs/op
+BenchmarkSampleIndices-32        	  449082	      2540 ns/op	     408 B/op	       4 allocs/op
+PASS
+ok  	github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/sponge	6.860s
+goos: linux
+goarch: amd64
+pkg: github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/traits
+cpu: Intel(R) Core(TM) i9-14900HX
+BenchmarkBatchInversion/Size_10-32         	  975700	      1154 ns/op	     576 B/op	      34 allocs/op
+BenchmarkBatchInversion/Size_100-32        	  147429	      7631 ns/op	    6000 B/op	     304 allocs/op
+BenchmarkBatchInversion/Size_1000-32       	   17553	     72109 ns/op	   56784 B/op	    3004 allocs/op
+BenchmarkBatchInversion/Size_10000-32      	    1494	    808377 ns/op	  567697 B/op	   30004 allocs/op
+BenchmarkPow/Exp_2-32                      	17864192	        61.86 ns/op	      32 B/op	       4 allocs/op
+BenchmarkPow/Exp_10-32                     	10635975	       108.1 ns/op	      56 B/op	       7 allocs/op
+BenchmarkPow/Exp_100-32                    	 7599393	       161.7 ns/op	      88 B/op	      11 allocs/op
+BenchmarkPow/Exp_1000-32                   	 4037192	       286.5 ns/op	     136 B/op	      17 allocs/op
+BenchmarkPow/Exp_10000-32                  	 3154303	       349.9 ns/op	     160 B/op	      20 allocs/op
+PASS
+ok  	github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/traits	12.396s
+goos: linux
+goarch: amd64
+pkg: github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/xfield
+cpu: Intel(R) Core(TM) i9-14900HX
+BenchmarkXFieldElementAdd-32        	475162908	         2.409 ns/op	       0 B/op	       0 allocs/op
+BenchmarkXFieldElementMul-32        	67316962	        17.41 ns/op	       0 B/op	       0 allocs/op
+BenchmarkXFieldElementInverse-32    	  512874	      3082 ns/op	    1152 B/op	      52 allocs/op
+PASS
+ok  	github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/xfield	4.212s
+goos: linux
+goarch: amd64
+pkg: github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/zerofier
+cpu: Intel(R) Core(TM) i9-14900HX
+BenchmarkNewZerofierTree-32         	     711	   1632861 ns/op	  194080 B/op	    2573 allocs/op
+BenchmarkZerofierTreeClone-32       	  549358	      3210 ns/op	    5712 B/op	      50 allocs/op
+BenchmarkZerofierTreeValidate-32    	   70324	     15698 ns/op	    2904 B/op	      16 allocs/op
+PASS
+ok  	github.com/Proteus-Crypto/titan-crypt/pkg/titan-crypt/zerofier	4.410s

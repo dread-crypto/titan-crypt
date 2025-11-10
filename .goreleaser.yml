@@ -1,0 +1,134 @@
+# This is an example goreleaser.yml file with some sane defaults.
+# Make sure to check the documentation at https://goreleaser.com
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+    - go vet ./...
+    - go test ./pkg/kraken-crypt/...
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+    tags:
+      - netgo
+      - osusergo
+
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - README.md
+      - LICENSE
+      - docs/
+
+checksum:
+  name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"
+  algorithm: sha256
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^ci:"
+      - "^chore:"
+
+release:
+  github:
+    owner: Proteus-Crypto
+    name: kraken-crypt
+  draft: false
+  prerelease: auto
+  mode: replace
+  header: |
+    ## 🚀 Kraken-Crypt Release {{ .Tag }}
+
+    This release includes the following changes:
+  footer: |
+    ## 📦 Installation
+
+    ```bash
+    go get github.com/Proteus-Crypto/kraken-crypt@{{ .Tag }}
+    ```
+
+    ## 🔗 Links
+
+    - [Documentation](https://github.com/Proteus-Crypto/kraken-crypt#readme)
+    - [Changelog](https://github.com/Proteus-Crypto/kraken-crypt/blob/{{ .Tag }}/CHANGELOG.md)
+    - [Security Policy](https://github.com/Proteus-Crypto/kraken-crypt/security/policy)
+
+  extra_files:
+    - glob: docs/**/*
+      name_template: "{{ .ProjectName }}_{{ .Version }}_docs"
+
+docker:
+  - image_templates:
+      - "proteus-crypto/kraken-crypt:{{ .Version }}"
+      - "proteus-crypto/kraken-crypt:latest"
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
+      - "--label=org.opencontainers.image.description=A high-performance cryptographic library for zero-knowledge proof systems"
+      - "--label=org.opencontainers.image.url=https://github.com/Proteus-Crypto/kraken-crypt"
+      - "--label=org.opencontainers.image.source=https://github.com/Proteus-Crypto/kraken-crypt"
+      - "--label=org.opencontainers.image.version={{ .Version }}"
+      - "--label=org.opencontainers.image.created={{ .Date }}"
+      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+      - "--label=org.opencontainers.image.licenses=MIT"
+
+homebrew:
+  name: kraken-crypt
+  tap:
+    owner: Proteus-Crypto
+    name: homebrew-tap
+  folder: Formula
+  description: "A high-performance cryptographic library for zero-knowledge proof systems"
+  homepage: "https://github.com/Proteus-Crypto/kraken-crypt"
+  license: "MIT"
+  test: |
+    system "#{bin}/kraken-crypt --version"
+  install: |
+    bin.install "kraken-crypt"
+  dependencies:
+    - go
+
+scoop:
+  bucket:
+    owner: Proteus-Crypto
+    name: scoop-bucket
+  description: "A high-performance cryptographic library for zero-knowledge proof systems"
+  homepage: "https://github.com/Proteus-Crypto/kraken-crypt"
+  license: "MIT"
+  url_template: "https://github.com/Proteus-Crypto/kraken-crypt/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+  hash:
+    url_template: "https://github.com/Proteus-Crypto/kraken-crypt/releases/download/{{ .Tag }}/{{ .ArtifactName }}.sha256"
+  persist:
+    - data
+  pre_install: |
+    Write-Host "Installing Kraken-Crypt..."
+  post_install: |
+    Write-Host "Kraken-Crypt installed successfully!"
+    Write-Host "Run 'kraken-crypt --help' to get started."

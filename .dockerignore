@@ -1,0 +1,59 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# CI/CD
+.github/
+.cursor/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Test files
+*_test.go
+testdata/
+coverage.out
+
+# Build artifacts
+dist/
+build/
+bin/
+
+# Dependencies
+vendor/
+
+# Environment
+.env
+.env.local
+
+# Coverage
+coverage/
+*.cover
+
+# Benchmark results
+benchmark_results/
+*.bench
+
+# Profiling
+*.prof
+*.pprof
+
+# Go specific
+go.work
