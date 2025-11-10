@@ -89,11 +89,10 @@ func demonstrateMerkleProofs() {
 	}
 
 	fmt.Printf("   Proof for leaf %d: %v\n", index, proof)
-	fmt.Printf("   Proof length: %d\n", len(proof.AuthenticationPath))
+	fmt.Printf("   Proof length: %d\n", len(proof.AuthenticationStructure))
 
 	// Verify the proof
-	leaf := leaves[index]
-	isValid := proof.Verify(root, []hash.Digest{leaf})
+	isValid := proof.Verify(root)
 	fmt.Printf("   Proof verification: %t\n", isValid)
 }
 
@@ -129,10 +128,10 @@ func demonstrateMMR() {
 	}
 
 	fmt.Printf("   MMR Proof for index %d: %v\n", index, proof)
-	fmt.Printf("   MMR Proof length: %d\n", len(proof.AuthenticationPath))
+	fmt.Printf("   MMR Proof length: %d\n", len(proof.AuthPath))
 
 	// Verify the proof
 	element := hash.NewDigest([5]field.Element{fieldElements[index], field.Zero, field.Zero, field.Zero, field.Zero})
-	isValid := proof.Verify(root, element, index)
+	isValid := mmr.VerifyMembership(element, proof)
 	fmt.Printf("   MMR Proof verification: %t\n", isValid)
 }

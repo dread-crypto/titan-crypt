@@ -30,11 +30,11 @@ repos:
       - id: go-fmt
         args: ["-s", "-w"]
         exclude: '^examples/'
-        files: '\.go$'
+        files: '^pkg/.*\.go$'
       - id: go-imports
         args: ["-w"]
         exclude: '^examples/'
-        files: '\.go$'
+        files: '^pkg/.*\.go$'
       - id: go-vet
         exclude: '^examples/'
         files: '^pkg/.*\.go$'
