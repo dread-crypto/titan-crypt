@@ -37,17 +37,21 @@ repos:
         files: '\.go$'
       - id: go-vet
         exclude: '^examples/'
-        files: '\.go$'
+        files: '^pkg/.*\.go$'
+        pass_filenames: false
+        args: ["./pkg/titan-crypt/..."]
       - id: go-mod-tidy
         files: 'go\.mod$|go\.sum$'
       - id: go-unit-tests
-        args: ["-race", "-coverprofile=coverage.out"]
+        args: ["-race", "-coverprofile=coverage.out", "./pkg/titan-crypt/..."]
         exclude: '^examples/'
         files: '^pkg/.*\.go$'
+        pass_filenames: false
       - id: go-build
         args: ["./pkg/titan-crypt/..."]
         exclude: '^examples/'
         files: '^pkg/.*\.go$'
+        pass_filenames: false
 
   # Security scanning
   - repo: https://github.com/Yelp/detect-secrets

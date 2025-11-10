@@ -52,7 +52,7 @@ func demonstrateBasicMerkleTree() {
 	fmt.Printf("   Leaves: %v\n", fieldLeaves)
 	fmt.Printf("   Merkle Root: %v\n", root)
 	fmt.Printf("   Tree Height: %d\n", tree.Height())
-	fmt.Printf("   Leaf Count: %d\n", tree.LeafCount())
+	fmt.Printf("   Leaf Count: %d\n", tree.NumLeafs())
 }
 
 func demonstrateMerkleProofs() {
