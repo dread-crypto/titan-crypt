@@ -1,153 +1,216 @@
-version: "2"
+# Atlas VM - golangci-lint configuration
+# Production-grade linting for zero-knowledge proof systems
 
 run:
   timeout: 5m
-  relative-path-mode: gomod
-  issues-exit-code: 2
-  tests: false
-  build-tags:
-    - mytag
+  tests: true
   modules-download-mode: readonly
   allow-parallel-runners: true
-  allow-serial-runners: true
-  go: "1.23"
   concurrency: 4
 
-output:
-  formats:
-    text:
-      path: stdout
-      print-linter-name: true
-      print-issued-lines: true
-      colors: true
-  path-prefix: ""
-  path-mode: "abs"
-  sort-order:
-    - linter
-    - severity
-    - file
-  show-stats: true
+linters:
+  # Enable comprehensive linters for cryptographic code quality
+  enable:
+    - govet # Go vet
+    - staticcheck # Static analysis
+    - ineffassign # Detect ineffectual assignments
+    - errcheck # Check error handling (critical for ZK proofs)
+    - gosec # Security analysis (essential for crypto code)
+    - gocritic # Comprehensive linter
+    - misspell # Spell checking
+    - unconvert # Remove unnecessary type conversions
+    - unused # Find unused code
+    - gocyclo # Cyclomatic complexity
+    - funlen # Function length
+    - goconst # Find repeated strings
+    - dupl # Code duplication
+    - nakedret # Naked returns
+    - prealloc # Preallocate slices (performance)
+    - whitespace # Whitespace issues
+    - wrapcheck # Check error wrapping
+    - testpackage # Test package naming
+    - paralleltest # Parallel test detection
+    - gofmt # Go formatting
+    - goimports # Import formatting
 
+  # Disable overly strict or noisy linters
+  disable:
+    - exhaustruct # Too strict for field elements and polynomials
+    - cyclop # Allow higher complexity for cryptographic operations
+    - mnd # Allow magic numbers for field parameters and constants
+    - depguard # Allow flexible imports for now
+    - gochecknoinits # Allow init functions for field setup
+    - gochecknoglobals # Allow global variables for constants
+    - godot # Comment formatting too strict
+    - godox # TODO comments are fine during development
+    - lll # Line length too restrictive for cryptographic constants
+    - nestif # Nested if statements needed for protocol validation
+    - noctx # Context usage varies
+    - nolintlint # Not needed for our workflow
+    - tagliatelle # Struct tags too strict
+    - varnamelen # Variable name length too strict (e.g., a, b for field elements)
+    - nlreturn # Disable for flexibility
+    - predeclared # Disable for flexibility
+
+# Linter-specific settings
+linters-settings:
+  gocyclo:
+    min-complexity: 20 # Higher for cryptographic algorithms
+
+  funlen:
+    lines: 150 # Longer functions acceptable for proof generation
+    statements: 80
+
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance # Critical for ZK proof systems
+    disabled-checks:
+      - dupImport
+      - ifElseChain
+      - octalLiteral
+      - whyNoLint
+      - wrapperFunc
+      - commentFormatting
+      - appendAssign # Common in field operations
+
+  gosec:
+    excludes:
+      - G204 # Subprocess launched with variable
+      - G304 # File path provided as taint input
+      - G115 # Integer overflow conversion (common in field arithmetic)
+
+  revive:
+    rules:
+      - name: exported
+        disabled: true
+      - name: package-comments
+        disabled: true
+
+  dupl:
+    threshold: 120 # Higher threshold for protocol implementations
+
+  govet:
+    enable-all: false
+    disable-all: false
+    settings:
+      printf:
+        funcs:
+          - (github.com/dread-crypto/atlas-vm/internal/proteus/utils.Logger).Printf
+    checks:
+      - all
+      - -assign
+      - -shadow
+      - -fieldalignment # Field alignment less critical, clarity preferred
+
+  errcheck:
+    check-type-assertions: true
+    check-blank: false # Allow _ for intentionally ignored errors
+
+# Issues configuration
 issues:
+  # Default severity
+  default-severity: error
+  severity-rules:
+    - linters:
+        - misspell
+        - dupl
+        - goconst
+      severity: warning
+    - linters:
+        - gosec
+        - errcheck
+      severity: error
+
+  # Exclude generated files and known issues
+  exclude-rules:
+    # Test files
+    - path: _test\.go
+      linters:
+        - gomnd
+        - funlen
+        - gocyclo
+        - dupl
+        - goconst
+        - errcheck # Test files may intentionally ignore some errors
+        - paralleltest # Not all tests need to be parallel
+        - gosec # G404: Use of weak random number generator acceptable in tests
+
+    # Benchmark files
+    - path: _bench_test\.go
+      linters:
+        - errcheck
+        - funlen
+        - gocyclo
+
+    # Examples
+    - path: examples/
+      linters:
+        - errcheck # Examples may simplify error handling for clarity
+        - gosec
+        - funlen
+        - gocritic
+
+    # CMD binaries
+    - path: cmd/
+      linters:
+        - gocyclo
+        - funlen # CLI commands can be longer
+        - gocritic # exitAfterDefer is acceptable for CLI commands
+        - unused
+        - staticcheck
+
+    # Internal protocols (complex by nature)
+    - path: internal/proteus/protocols/
+      linters:
+        - gocyclo # Protocol implementations are complex
+        - funlen # Proof generation functions are long
+        - gocognit
+
+    # VM implementation
+    - path: internal/proteus/vm/
+      linters:
+        - gocyclo # VM operations are complex
+        - funlen
+
+    # Core field arithmetic
+    - path: internal/proteus/core/
+      linters:
+        - gocyclo # Field operations are complex
+        - funlen
+        - gocritic # Intentional optimizations
+
+    # Public API
+    - path: pkg/proteus/
+      linters:
+        - wrapcheck # Public API may not wrap all errors
+
+    # Suppress specific warnings
+    - text: "should have comment"
+      linters:
+        - revive
+
+    - text: "exported.*should have comment"
+      linters:
+        - revive
+
+    # Allow unused nolint directives (some may be version-specific)
+    - text: "nolint directive did not match any issue"
+      linters:
+        - nolintlint
+
+  # Maximum issues count per one linter
   max-issues-per-linter: 0
   max-same-issues: 0
-  uniq-by-line: false
-  new: true
-  new-from-merge-base: main
-  new-from-rev: HEAD
-  new-from-patch: ""
-  whole-files: true
-  fix: true
+  uniq-by-line: true
 
-formatters:
-  enable:
-    - gci
-    - gofmt
-    - gofumpt
-    - goimports
-    - golines
-  settings:
-    gci:
-      sections:
-        - standard
-        - default
-        - prefix(github.com/Proteus-Crypto/kraken-crypt)
-    gofumpt:
-      extra-rules: true
-    golines:
-      max-len: 120
-      tab-len: 4
-  exclusions:
-    warn-unused: true
-    generated: strict
-    paths:
-      - ".*\\.my\\.go$"
-      - lib/bad.go
+# Output configuration
+output:
+  formats:
+    - format: colored-line-number
+      print-issued-line: true
+      print-linter-name: true
+  sort-results: true
+  show-stats: true
 
-linters:
-  default: all
-  enable:
-    - errcheck
-    - govet
-    - ineffassign
-    - staticcheck
-    - unused
-    - misspell
-    - gosec
-    - goconst
-    - gocyclo
-    - dupl
-    - lll
-    - funlen
-    - mnd
-    - nakedret
-    - prealloc
-    - unconvert
-    - whitespace
-    - gocritic
-    - gocognit
-    - gochecknoinits
-    - gochecknoglobals
-    - gomodguard
-    - gomoddirectives
-    - goprintffuncname
-    - gosec
-    - gosmopolitan
-    - grouper
-    - iface
-    - importas
-    - inamedparam
-    - interfacebloat
-    - intrange
-    - iotamixing
-    - ireturn
-    - loggercheck
-    - maintidx
-    - makezero
-    - mirror
-    - musttag
-    - nestif
-    - nilerr
-    - nilnesserr
-    - nilnil
-    - nlreturn
-    - noctx
-    - noinlineerr
-    - nolintlint
-    - nonamedreturns
-    - nosprintfhostport
-    - paralleltest
-    - perfsprint
-    - predeclared
-    - promlinter
-    - protogetter
-    - reassign
-    - recvcheck
-    - revive
-    - rowserrcheck
-    - sloglint
-    - spancheck
-    - sqlclosecheck
-    - tagalign
-    - tagliatelle
-    - testableexamples
-    - testifylint
-    - testpackage
-    - thelper
-    - tparallel
-    - unparam
-    - unqueryvet
-    - usestdlibvars
-    - usetesting
-    - varnamelen
-    - wastedassign
-    - wrapcheck
-    - wsl_v5
-    - zerologlint
-  disable:
-    - gochecknoinits
-    - gochecknoglobals
-    - mnd
-    - funlen
-    - gosec
-    - unused

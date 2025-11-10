@@ -63,7 +63,7 @@ jobs:
           context: .
           push: true
           tags: |
-            proteus-crypto/kraken-crypt:latest
-            proteus-crypto/kraken-crypt:${{ github.ref_name }}
+            proteus-crypto/titan-crypt:latest
+            proteus-crypto/titan-crypt:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
