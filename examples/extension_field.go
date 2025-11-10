@@ -107,19 +107,15 @@ func demonstrateExtensionFieldConversion() {
 
 	fmt.Printf("   Extension field element: %v\n", a)
 
-	// Convert to base field (evaluate at x=1)
-	baseFieldValue := a.ToBaseField()
-	fmt.Printf("   Base field value (evaluate at x=1): %v\n", baseFieldValue)
-
-	// Convert from base field
-	fromBase := xfield.FromBaseField(field.New(999))
-	fmt.Printf("   From base field (999): %v\n", fromBase)
-
-	// Demonstrate unlift operation
+	// Get constant term (unlift operation)
 	unlifted := a.Unlift()
 	fmt.Printf("   Unlifted (constant term): %v\n", unlifted)
 
-	// Demonstrate lift operation
-	lifted := xfield.Lift(field.New(777))
-	fmt.Printf("   Lifted (777): %v\n", lifted)
+	// Create constant extension field element from base field
+	fromBase := xfield.NewConst(field.New(999))
+	fmt.Printf("   From base field (999): %v\n", fromBase)
+
+	// Create another constant extension field element
+	lifted := xfield.NewConst(field.New(777))
+	fmt.Printf("   Constant extension field element (777): %v\n", lifted)
 }

@@ -30,18 +30,24 @@ repos:
       - id: go-fmt
         args: ["-s", "-w"]
         exclude: '^examples/'
+        files: '\.go$'
       - id: go-imports
         args: ["-w"]
         exclude: '^examples/'
+        files: '\.go$'
       - id: go-vet
         exclude: '^examples/'
+        files: '\.go$'
       - id: go-mod-tidy
+        files: 'go\.mod$|go\.sum$'
       - id: go-unit-tests
         args: ["-race", "-coverprofile=coverage.out"]
         exclude: '^examples/'
+        files: '^pkg/.*\.go$'
       - id: go-build
         args: ["./pkg/titan-crypt/..."]
         exclude: '^examples/'
+        files: '^pkg/.*\.go$'
 
   # Security scanning
   - repo: https://github.com/Yelp/detect-secrets
@@ -56,8 +62,9 @@ repos:
     rev: v1.55.2
     hooks:
       - id: golangci-lint
-        args: ["--timeout=5m"]
+        args: ["--timeout=5m", "--skip-dirs=examples"]
         exclude: '^examples/'
+        files: '^pkg/.*\.go$'
 
   # Custom titan-crypt specific checks
   - repo: local
