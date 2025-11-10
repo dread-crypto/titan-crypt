@@ -67,12 +67,12 @@ func main() {
     // Create field elements
     a := field.New(42)
     b := field.New(17)
-    
+
     // Perform operations
     sum := a.Add(b)        // 42 + 17 = 59
     product := a.Mul(b)    // 42 * 17 = 714
     inverse := a.Inv()     // 1 / 42
-    
+
     fmt.Printf("Sum: %v\n", sum)
     fmt.Printf("Product: %v\n", product)
     fmt.Printf("Inverse: %v\n", inverse)
@@ -97,10 +97,10 @@ func main() {
         field.New(2),
         field.New(3),
     }
-    
+
     // Hash with Tip5
     digest := hash.Tip5Hash(input)
-    
+
     fmt.Printf("Tip5 Hash: %v\n", digest)
 }
 ```
@@ -123,13 +123,13 @@ func main() {
         field.New(2), // x coefficient
         field.New(3), // x^2 coefficient
     }
-    
+
     poly := polynomial.New(coeffs)
-    
+
     // Evaluate at x = 5: 3(25) + 2(5) + 1 = 86
     point := field.New(5)
     result := poly.Evaluate(point)
-    
+
     fmt.Printf("P(5) = %v\n", result)
 }
 ```
@@ -153,14 +153,14 @@ func main() {
         {field.New(5), field.New(6)},
         {field.New(7), field.New(8)},
     }
-    
+
     // Build Merkle tree
     tree := merkle.NewMerkleTree(leaves)
     root := tree.Root()
-    
+
     // Generate inclusion proof
     proof := tree.Proof(1) // Proof for leaf at index 1
-    
+
     fmt.Printf("Root: %v\n", root)
     fmt.Printf("Proof valid: %v\n", proof.Verify(root, leaves[1], 1))
 }
@@ -294,7 +294,7 @@ Titan Crypt is built on well-established cryptographic research and optimized fo
 
 ---
 
-**Status**: Production Ready  
-**Version**: 0.1.0  
-**Last Updated**: November 2025  
+**Status**: Production Ready
+**Version**: 0.1.0
+**Last Updated**: November 2025
 **Maintainer**: dread-crypto organization
